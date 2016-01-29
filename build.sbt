@@ -1,3 +1,4 @@
+
 name := "sbt-config-experiments"
 
 organization := "org.gestern"
@@ -18,5 +19,5 @@ initialCommands := "import org.gestern.sbtconfigexperiments._"
 
 version in Foo := version.value ++ "-fuzzy"
 
-envString in Foo := "foolhardy warrior"
-envString in Test := "testy torturer"
+injectionSettings(Test)
+injectionSettings(Foo)
