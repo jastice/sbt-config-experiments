@@ -1,5 +1,6 @@
 import sbt.Keys._
 import sbt._
+//import Path._
 
 trait InjectionPluginKeys {
 
@@ -10,9 +11,14 @@ trait InjectionPluginKeys {
     Defaults.configSettings ++
       Seq(
         injectionSourceDirectory := sourceDirectory.value / "inject",
+
+
         inject := {
-          IO.copyDirectory(injectionSourceDirectory.value, sourceManaged.value)
-          Seq(sourceManaged.value)
+          val injectionTargetDirectory = sourceManaged.value
+          injectionTargetDirectory.mkdirs()
+          IO.copyDirectory(injectionSourceDirectory.value, injectionTargetDirectory)
+
+          ((injectionTargetDirectory ** "*") filter { !_.isDirectory }).get
         },
 
         sourceGenerators += inject.taskValue
